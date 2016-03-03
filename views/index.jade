@@ -1,5 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    #checkoutDiv(class="container")
+        br
+        form#checkout(method="post", action="/process")
+            div(class="form-group")
+                #dropin
+            input#subscribeBtn(class="btn btn-success" type="submit", value="Pay $1.00")
+
+    script(src="https://js.braintreegateway.com/v2/braintree.js")
+    script.
+        braintree.setup("#{token}", "dropin", {
+            container: "dropin",
+            paypal: {
+                singleUse: false,
+                enableShippingAddress: true
+            }
+        });
