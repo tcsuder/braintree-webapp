@@ -1,5 +1,5 @@
 var express = require('express');
-var app = express.Router();
+var router = express.Router();
 var braintree = require('braintree');
 
 //tyler's sandbox keys
@@ -10,14 +10,15 @@ var gateway = braintree.connect({
     privateKey: "e59a00b0ea5781ceb7384aba7c83c61c"
 });
 
-app.get('/', function(req, res) {
+
+router.get('/', function(req, res) {
   gateway.clientToken.generate({}, function (err, response) {
     var token = response.clientToken;
     res.render('index', {token: token});
   });
 });
 
-app.post("/process", function (req, res) {
+router.post('/process', function(req, res) {
   var nonce = req.body.payment_method_nonce;
   var plan = req.body.plan;
 
@@ -38,4 +39,4 @@ app.post("/process", function (req, res) {
   });
 });
 
-module.exports = app;
+module.exports = router;
